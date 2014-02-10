@@ -1,23 +1,35 @@
 <% layout("boilerplate") -%>
-<h1><%= title %> </h1>
-<h2>
-    Upcoming
-</h2>
-<% for(var i = 0; i < todos.length; i++){
-      var todo = todos[i];
-      if(!todo.done){%>
-        <div><input type="checkbox"><%= todo.description %></div>
-        <div><%= todo.due.toDateString() %>
-    <% }
-} %>
-
-<h2>
-    Done
-</h2>
-<% for(var i = 0; i < todos.length; i++){
-      var todo = todos[i];
-      if(todo.done){%>
-        <div><input type="checkbox" checked="true"><%= todo.description %></div>
-        <div><%= todo.due.toDateString() %>
-    <% }
-} %>
+<script type='text/javascript' src='/public/javascripts/controllers/TodoListController.js'></script>
+<div class="container" ng-controller="TodoListController", ng-init="setTodos(<%= JSON.stringify(todos) %>)">
+    <h1><%= title %> </h1>
+    <h2>
+        Upcoming
+    </h2>
+    <div class="row" ng-repeat="todo in todos | filter:notDoneFilter">
+        <div class="span9">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+            </label>
+        </div>
+        <div class="span3 text-right">
+            <i>
+                {{todo.due | date: 'MMM d, yyyy' }}
+            </i>
+        </div>
+    </div>
+    <h2>
+        Done
+    </h2>
+    <div class="row" ng-repeat="todo in todos | filter:doneFilter">
+        <div class="span9">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+            </label>
+        </div>
+        <div class="span3 text-right">
+            <i>
+                {{todo.due | date: 'MMM d, yyyy' }}
+            </i>
+        </div>
+    </div>
+</div> <!-- /container -->
