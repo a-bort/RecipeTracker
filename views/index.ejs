@@ -1,0 +1,23 @@
+<% layout("boilerplate") -%>
+<h1><%= title %> </h1>
+<h2>
+    Upcoming
+</h2>
+<% for(var i = 0; i < todos.length; i++){
+      var todo = todos[i];
+      if(!todo.done){%>
+        <div><input type="checkbox"><%= todo.description %></div>
+        <div><%= todo.due.toDateString() %>
+    <% }
+} %>
+
+<h2>
+    Done
+</h2>
+<% for(var i = 0; i < todos.length; i++){
+      var todo = todos[i];
+      if(todo.done){%>
+        <div><input type="checkbox" checked="true"><%= todo.description %></div>
+        <div><%= todo.due.toDateString() %>
+    <% }
+} %>
