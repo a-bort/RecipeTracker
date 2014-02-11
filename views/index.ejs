@@ -7,7 +7,8 @@
     </h2>
     <form novalidate ng-submit="addNewTodo()">
         <textarea ng-model="newTodo.description", placeholder="Description"></textarea><br/>
-        <button class="btn btn-primary" type="submit">Add Todo</button>
+        <button class="btn btn-primary" type="submit">Add Todo</button><br />
+        <datepicker ng-model="newTodo.due"></datepicker>
     </form>
     <h2>
         Upcoming
