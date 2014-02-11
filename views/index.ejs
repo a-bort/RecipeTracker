@@ -3,33 +3,44 @@
 <div class="container" ng-controller="TodoListController", ng-init="setTodos(<%= JSON.stringify(todos) %>)">
     <h1><%= title %> </h1>
     <h2>
+        Add New
+    </h2>
+    <form novalidate ng-submit="addNewTodo()">
+        <textarea ng-model="newTodo.description", placeholder="Description"></textarea><br/>
+        <button class="btn btn-primary" type="submit">Add Todo</button>
+    </form>
+    <h2>
         Upcoming
     </h2>
-    <div class="row" ng-repeat="todo in todos | filter:notDoneFilter">
-        <div class="span9">
-            <label class="checkbox">
-                <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
-            </label>
-        </div>
-        <div class="span3 text-right">
-            <i>
-                {{todo.due | date: 'MMM d, yyyy' }}
-            </i>
+    <div>
+        <div class="row todo not-done" ng-repeat="todo in todos | filter:notDoneFilter">
+            <div class="span9">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+                </label>
+            </div>
+            <div class="span3 text-right">
+                <i>
+                    {{todo.due | date: 'MMM d, yyyy' }}
+                </i>
+            </div>
         </div>
     </div>
     <h2>
         Done
     </h2>
-    <div class="row" ng-repeat="todo in todos | filter:doneFilter">
-        <div class="span9">
-            <label class="checkbox">
-                <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
-            </label>
-        </div>
-        <div class="span3 text-right">
-            <i>
-                {{todo.due | date: 'MMM d, yyyy' }}
-            </i>
+    <div>
+        <div class="row todo done" ng-repeat="todo in todos | filter:doneFilter">
+            <div class="span9">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+                </label>
+            </div>
+            <div class="span3 text-right">
+                <i>
+                    {{todo.due | date: 'MMM d, yyyy' }}
+                </i>
+            </div>
         </div>
     </div>
 </div> <!-- /container -->

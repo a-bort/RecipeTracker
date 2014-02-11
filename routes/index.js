@@ -3,22 +3,19 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'To Do List', todos: [
-    { 
-        description: "Buy Groceries",
-        due : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-        done: false
-    },
-    { 
-        description: "Do Laundry",
-        due : new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
-        done: false
-    },
-    { 
-        description: "Rescue puppies from burning building",
-        due : new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000),
-        done: true
-    }    
-  ] });
+exports.index = function(todos){
+  return function(req, res){
+    res.render('index', { title: 'To Do List', todos: todos });
+  };
+};
+
+exports.tests = function(req, res){
+  res.render('tests/runner', { title: 'End to end Tests'});
+};
+
+exports.addTodo = function(todos){
+    return function(req, res){
+        todos.push(req.body);
+        res.json({ todos: todos });
+    };
 };

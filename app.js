@@ -30,8 +30,28 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+var todos = [
+    { 
+        description: "Buy Groceries",
+        due : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+        done: false
+    },
+    { 
+        description: "Do Laundry",
+        due : new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+        done: false
+    },
+    { 
+        description: "Rescue puppies from burning building",
+        due : new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000),
+        done: true
+    }    
+];
+app.get('/', routes.index(todos));
 app.get('/users', user.list);
+app.get('/tests', routes.tests);
+
+app.post('/todo.json', routes.addTodo(todos));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
