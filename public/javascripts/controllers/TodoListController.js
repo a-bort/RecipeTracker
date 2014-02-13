@@ -1,4 +1,4 @@
-var simplEventApp = angular.module('simplEventApp', ['ui.bootstrap']);
+var simplEventApp = angular.module('simplEventApp', []);
 
 simplEventApp.controller('TodoListController', function($scope, $http){
     $scope.todos = [];
