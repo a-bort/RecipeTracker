@@ -1,5 +1,7 @@
 $(function(){
-	console.log($(".datepicker").length);
-	$(".datepicker").datepicker({});
+	$(".datepicker").datetimepicker({
+		pickDate: true,
+		pickTime: false
+	});
 
 });
