@@ -17,8 +17,12 @@ simplEventApp.controller('TodoListController', function($scope, $http){
     
     $scope.addNewTodo = function(){
         $http.post('/todo.json', $scope.newTodo).success(function(data){
-            $scope.todos = data.todos;
-            $scope.newTodo.description = '';
+            if(data.todo){
+                $scope.todos.push(data.todo);
+                $scope.newTodo.description = '';
+            } else {
+                alert(JSON.stringify(data));
+            }
         });
     }
 });

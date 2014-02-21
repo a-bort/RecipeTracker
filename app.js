@@ -6,11 +6,16 @@
 var express = require('express');
 var engine = require('ejs-locals');
 var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
 var app = express();
+
+var Mongoose = require('mongoose');
+var db = Mongoose.createConnection('localhost', 'simplevent');
+
+var TodoSchema = require('./models/Todo.js').TodoSchema;
+var Todo = db.model('todos', TodoSchema);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,32 +35,10 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-var todos = [
-    { 
-        description: "Buy Groceries",
-        due : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-        done: false
-    },
-    { 
-        description: "Do Laundry",
-        due : new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
-        done: false
-    },
-    { 
-        description: "Rescue puppies from burning building",
-        due : new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000),
-        done: true
-    }    
-];
-app.get('/', routes.index(todos));
-app.get('/users', user.list);
+app.get('/', routes.index(Todo));
 app.get('/tests', routes.tests);
-
-app.post('/todo.json', routes.addTodo(todos));
+app.post('/todo.json', routes.addTodo(Todo));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-//var Mongoose = require('mongoose');
-//var db = Mongoose.createConnection('localhost', 'simplevent');
