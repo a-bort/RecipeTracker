@@ -4,7 +4,7 @@ simplEventApp.controller('TodoListController', function($scope, $http){
     $scope.todos = [];
     $scope.newTodo = {
         done: false,
-        due: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+        due: "", //new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
         description: ''
     };
     
