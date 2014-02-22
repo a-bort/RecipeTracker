@@ -37,7 +37,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index(Todo));
 app.get('/tests', routes.tests);
-app.post('/todo.json', routes.addTodo(Todo));
+app.post('/create', routes.addTodo(Todo));
+app.post('/update', routes.setTodoStatus(Todo));
+app.post('/delete', routes.deleteTodo(Todo));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

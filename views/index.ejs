@@ -17,34 +17,40 @@
     <h2>
         Upcoming
     </h2>
-    <div>
+    <div class="container">
         <div class="row todo not-done" ng-repeat="todo in todos | filter:notDoneFilter">
-            <div class="span9">
+            <div class="col-md-9">
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+                    <input type="checkbox" ng-model="todo.done" ng-change="todo.setTodoState()"> | {{todo.description}}
                 </label>
             </div>
-            <div class="span3 text-right">
+            <div class="col-md-2">
                 <i>
                     {{todo.due | date: 'MMM d, yyyy' }}
                 </i>
+            </div>
+            <div class="col-md-1">
+                <button class="btn" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
         </div>
     </div>
     <h2>
         Done
     </h2>
-    <div>
+    <div class="container"> 
         <div class="row todo done" ng-repeat="todo in todos | filter:doneFilter">
-            <div class="span9">
+            <div class="col-md-9">
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="todo.done"> | {{todo.description}}
+                    <input type="checkbox" ng-model="todo.done" ng-change="todo.setTodoState()"> | {{todo.description}}
                 </label>
             </div>
-            <div class="span3 text-right">
+            <div class="col-md-2">
                 <i>
                     {{todo.due | date: 'MMM d, yyyy' }}
                 </i>
+            </div>
+            <div class="col-md-1">
+                <button class="btn" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
         </div>
     </div>
