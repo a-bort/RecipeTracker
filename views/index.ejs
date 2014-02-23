@@ -1,4 +1,4 @@
-<% layout("boilerplate") -%>
+<% layout("layout") -%>
 <script type='text/javascript' src='/public/javascripts/controllers/TodoListController.js'></script>
 <div class="container" ng-controller="TodoListController", ng-init="setTodos(<%= JSON.stringify(todos) %>)">
     <h1><%= title %> </h1>
@@ -33,7 +33,7 @@
                 </i>
             </div>
             <div class="col-md-1">
-                <button class="btn" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
+                <button class="btn btn-danger" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
                 </i>
             </div>
             <div class="col-md-1">
-                <button class="btn" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
+                <button class="btn btn-danger" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
         </div>
     </div>
