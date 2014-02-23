@@ -5,15 +5,18 @@
     <h2>
         Add New
     </h2>
-    <form name="newTodoForm" class="form-inline" role="form" ng-submit="addNewTodo()">
-        <textarea ng-model="newTodo.description", placeholder="Description"></textarea><br/>
-		<div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
-			<label class="control-group"><i class="fa fa-calendar"></i>&nbsp;Date</label>
-			<input type="text" class="form-control datepicker" ng-model="newTodo.due" name="date">
+    <form name="newTodoForm" role="form" ng-submit="addNewTodo()">
+        <div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
+            <label for="descriptionInput">Description</label>
+            <textarea id="descriptionInput" class="form-control" ng-model="newTodo.description" placeholder="Description"></textarea>
 		</div>
-        <button class="btn btn-primary" type="submit">Add Todo</button><br />
-        <!--datepicker ng-model="newTodo.due"></datepicker-->
+        <div class="form-group control-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
+			<label for="dateInput">Date</label>
+            <input id="dateInput" type="text" class="form-control datepicker" ng-model="newTodo.due" name="date" placeholder="Date">
+		</div>
+        <button class="btn btn-primary" type="submit">Add Todo</button>
     </form>
+    <hr/>
     <h2>
         Upcoming
     </h2>
