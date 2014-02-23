@@ -26,7 +26,7 @@ app.use("/public", express.static(path.join(__dirname, 'public')));
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'simplevent');
 
-require('./routes')(app, db);
+require('./routes/todo')(app, db);
 
 // development only
 if ('development' == app.get('env')) {
