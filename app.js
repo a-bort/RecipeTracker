@@ -5,17 +5,10 @@
 
 var express = require('express');
 var engine = require('ejs-locals');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 
 var app = express();
-
-var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'simplevent');
-
-var TodoSchema = require('./models/Todo.js').TodoSchema;
-var Todo = db.model('todos', TodoSchema);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,16 +23,19 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
+var Mongoose = require('mongoose');
+var db = Mongoose.createConnection('localhost', 'simplevent');
+
+require('./routes')(app, db);
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index(Todo));
-app.get('/tests', routes.tests);
-app.post('/create', routes.addTodo(Todo));
-app.post('/update', routes.setTodoStatus(Todo));
-app.post('/delete', routes.deleteTodo(Todo));
+app.get('/tests', function(req, res){
+  res.render('tests/runner', { title: 'End to end Tests'});
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -1,25 +1,22 @@
-
+var TodoSchema = require('../models/Todo.js').TodoSchema;
 /*
  * GET home page.
  */
-
-exports.index = function(Todo){
-  return function(req, res){
-    Todo.find({}, function(error, todos){
-        res.render('index', {
-            title: 'Todo List',
-            todos: todos
+ 
+ module.exports = function(app, db){
+    var Todo = db.model('todos', TodoSchema);
+    
+    app.get('/', function(req, res){
+        Todo.find({}, function(error, todos){
+            res.render('index', {
+                title: 'Todo List',
+                todos: todos
+            });
         });
     });
-  };
-};
-
-exports.tests = function(req, res){
-  res.render('tests/runner', { title: 'End to end Tests'});
-};
-
-exports.addTodo = function(Todo){
-    return function(req, res){
+    
+    
+    app.post('/create', function(req, res){
         var todo = new Todo(req.body);
         todo.save(function(error, todo){
             if(error || !todo){
@@ -28,11 +25,9 @@ exports.addTodo = function(Todo){
                 res.json({ todo: todo });
             }
         });
-    };
-};
-
-exports.setTodoStatus = function(Todo){
-    return function(req, res){
+    });
+    
+    app.post('/update', function(req, res){
         var id = req.body.id;
         var done = req.body.done;
         Todo.find({ _id: id }, function(err, todos){
@@ -51,11 +46,9 @@ exports.setTodoStatus = function(Todo){
                 });
             }
         })
-    }
-}
-
-exports.deleteTodo = function(Todo){
-    return function(req, res){
+    });
+    
+    app.post('/delete', function(req, res){
         var id = req.body.id;
         Todo.remove({_id: id}, function(err){
             if(err){
@@ -71,5 +64,5 @@ exports.deleteTodo = function(Todo){
                 });
             }
         });
-    }
-}
+    });
+ };
