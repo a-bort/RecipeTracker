@@ -4,7 +4,7 @@ var EventSchema = require('../models/Event.js').EventSchema;
  */
  
  module.exports = function(app, db){
-    var Event = db.model('events', EventSchema);
+    var Event = db.model('event', EventSchema);
     
     app.get('/', function(req, res){
         Event.find({}, function(error, events){
