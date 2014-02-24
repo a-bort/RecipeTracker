@@ -1,60 +1,6 @@
 <% layout("layout") -%>
-<script type='text/javascript' src='/public/javascripts/controllers/TodoListController.js'></script>
-<div class="container" ng-controller="TodoListController", ng-init="setTodos(<%= JSON.stringify(todos) %>)">
+<script type='text/javascript' src='/public/javascripts/controllers/EventListController.js'></script>
+<div class="container" ng-controller="EventListController", ng-init="setEvents(<%= JSON.stringify(events) %>)">
     <h1><%= title %> </h1>
-    <h2>
-        Add New
-    </h2>
-    <form name="newTodoForm" role="form" ng-submit="addNewTodo()">
-        <div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
-            <label for="descriptionInput">Description</label>
-            <textarea id="descriptionInput" class="form-control" ng-model="newTodo.description" placeholder="Description"></textarea>
-		</div>
-        <div class="form-group control-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
-			<label for="dateInput">Date</label>
-            <input id="dateInput" type="text" class="form-control datepicker" ng-model="newTodo.due" name="date" placeholder="Date">
-		</div>
-        <button class="btn btn-primary" type="submit">Add Todo</button>
-    </form>
-    <hr/>
-    <h2>
-        Upcoming
-    </h2>
-    <div class="container">
-        <div class="row todo not-done" ng-repeat="todo in todos | filter:notDoneFilter">
-            <div class="col-md-9">
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="todo.done" ng-change="todo.setTodoState()"> | {{todo.description}}
-                </label>
-            </div>
-            <div class="col-md-2">
-                <i>
-                    {{todo.due | date: 'MMM d, yyyy' }}
-                </i>
-            </div>
-            <div class="col-md-1">
-                <button class="btn btn-danger" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
-            </div>
-        </div>
-    </div>
-    <h2>
-        Done
-    </h2>
-    <div class="container"> 
-        <div class="row todo done" ng-repeat="todo in todos | filter:doneFilter">
-            <div class="col-md-9">
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="todo.done" ng-change="todo.setTodoState()"> | {{todo.description}}
-                </label>
-            </div>
-            <div class="col-md-2">
-                <i>
-                    {{todo.due | date: 'MMM d, yyyy' }}
-                </i>
-            </div>
-            <div class="col-md-1">
-                <button class="btn btn-danger" ng-click="todo.removeItem()"><i class="glyphicon glyphicon-remove"></i></button>
-            </div>
-        </div>
-    </div>
+    
 </div> <!-- /container -->
