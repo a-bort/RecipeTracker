@@ -30,27 +30,29 @@ app.use(app.router);
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
 var Mongoose = require('mongoose'); //database
-var db = Mongoose.createConnection('localhost', 'simplevent');
+Mongoose.connect('mongodb://localhost/simplevent');
+var db = Mongoose.connection;
 
-var UserSchema = require('./models/User').UserSchema;
-var User = db.model('user', UserSchema);
-//configure authentication
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
+//var UserSchema = require('./models/User').UserSchema;
+//var User = db.model('user', UserSchema);
+////configure authentication
+//passport.use(new LocalStrategy(
+//  function(username, password, done) {
+//    User.findOne({ username: username }, function(err, user) {
+//      if (err) { return done(err); }
+//      if (!user) {
+//        return done(null, false, { message: 'Incorrect username.' });
+//      }
+//      if (!user.validPassword(password)) {
+//        return done(null, false, { message: 'Incorrect password.' });
+//      }
+//      return done(null, user);
+//    });
+//  }
+//));
 
-require('./routes/eventList')(app, db);
+require('./routes/recipeRoute')(app, db);
+require('./routes/propertyRoute')(app, db);
 
 // development only
 if ('development' == app.get('env')) {

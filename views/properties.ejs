@@ -1,0 +1,53 @@
+<% layout("layout") -%>
+<script type='text/javascript' src='/public/javascripts/controllers/PropertyController.js'></script>
+<div class="container" ng-controller="PropertyController", ng-init="initData(<%= JSON.stringify(types)%>, <%= JSON.stringify(properties)%>)">
+    <h1 class="control-group"><%= title %> </h1>
+    <div>
+        <div style="margin-top: 20px">
+            <div ng-hide="noProperties()">
+                <ul>
+                    <li ng-repeat="prop in properties">
+                        <h5 ng-bind="prop.name"></h5>
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="noProperties()">
+                <h5>No User Made Properties Available</h5>
+            </div>
+        </div>
+        <div style="margin-top: 20px">
+            <a data-toggle="modal" href="#addPropertyModal" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Property</a>
+        </div>
+    </div>
+    <div class="modal fade" id="addPropertyModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Add New Property</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="propertyName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input ng-model="newProperty.name" type="text" class="form-control" id="propertyName" placeholder="Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="propertyType" class="col-sm-2 control-label">Type</label>
+                        <div class="col-sm-10">
+                            <select ng-model="newProperty.typeId" ng-options="t.name for t in types" type="text" class="form-control" id="propertyType" placeholder="Name">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button ng-disabled="saveNewPropertyDisabled()" ng-click="addNewProperty()" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div> <!-- /container -->

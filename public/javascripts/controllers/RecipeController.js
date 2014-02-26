@@ -1,7 +1,7 @@
 var simplEventApp = angular.module('simplEventApp', []);
 
-simplEventApp.controller('TodoListController', function($scope, $http){
-    $scope.events = [];
+simplEventApp.controller('RecipeController', function($scope, $http){
+    $scope.recipes = [];
     
     //done, due, description
   //  function todo(js){
@@ -44,8 +44,8 @@ simplEventApp.controller('TodoListController', function($scope, $http){
   //  $scope.doneFilter = { done : true };
   //  $scope.notDoneFilter = { done : false };
   //  
-      $scope.setEvents = function(todos){
-          console.log("Set Events");
+      $scope.setRecipes = function(todos){
+          console.log("Set Recipes");
       }
   //  
   //  $scope.addNewTodo = function(){

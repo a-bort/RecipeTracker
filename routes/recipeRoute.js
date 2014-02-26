@@ -1,20 +1,35 @@
-var EventSchema = require('../models/Event.js').EventSchema;
+//var PropertySchema = require('../models/Property.js').PropertySchema;
+//var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema;
 /*
  * GET home page.
  */
  
  module.exports = function(app, db){
-    var Event = db.model('event', EventSchema);
+    //var Property = db.model('property', PropertySchema);
+    //var PropertyType = db.model('propertyType', 
     
     app.get('/', function(req, res){
-        Event.find({}, function(error, events){
-            res.render('index', {
-                title: 'Event List',
-                events: []
-            });
-        });
+        var errorList = [];
+        //PropertyTypeSchema.find({active: true}, function(error, types){
+        //    if(error){
+        //        types = [];
+        //        errorList.push(error);
+        //    }
+        //    Property.find({}, function(error, properties){
+        //        if(error){
+        //            properties = [];
+        //            errorList.push(error);
+        //        }
+                res.render('index', {
+                    title: 'Recipes',
+                    error: errorList,
+                    recipes: []//,
+                    //types: types,
+                    //properties: properties
+                });
+            //});
+        //});
     });
-    
     
   // app.post('/create', function(req, res){
   //     var event = new Event(req.body);
