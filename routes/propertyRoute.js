@@ -50,6 +50,25 @@ var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema
         });
     });
     
+    app.post('/Properties/update', function(req, res){
+        var prop = new Property(req.body);
+        var raw = prop.toObject();
+        delete raw._id;
+        prop.update(raw, {}, function(error, property){
+            if(error || !property){
+                res.json({error: error});
+            } else{
+                Property.find({active: true}, function(error, props){
+                    if(error){
+                        res.json({error: error});
+                    } else{
+                        res.json({properties: props});
+                    }
+                });
+            }
+        });
+    });
+    
   // app.post('/create', function(req, res){
   //     var event = new Event(req.body);
   //     event.save(function(error, event){
