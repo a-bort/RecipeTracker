@@ -16,5 +16,9 @@ function util(){
     util.alert = function(msg){
         alert(msg);
     }
+    
+    util.sc = function(controller){
+        return angular.element("[ng-controller='" + controller + "Controller']").scope();
+    }
 }
 var util = new util();

@@ -30,14 +30,30 @@ simplEventApp.controller('PropertyController', function($scope, $http){
     }
     
     $scope.getTypeName = function(typeId){
-        for(var i = 0; i < $scope.types.length; i++){
-            var type = $scope.types[i];
-            if(type._id == typeId){
-                return type.name;
-            }
+        var typeObj = $scope.getTypeObject(typeId);
+        if(typeObj.name){
+            return typeObj.name;
         }
         return "";
     };
+    
+    $scope.getTypeObject = function(typeId){
+        for(var i = 0; i < $scope.types.length; i++){
+            var type = $scope.types[i];
+            if(type._id == typeId){
+                return type;
+            }
+        }
+        return {};
+    }
+    
+    $scope.typeIsScale = function(){
+        return $scope.getTypeName($scope.modalProperty.typeId) == "Scale";
+    }
+    
+    $scope.typeIsSelect = function(){
+        return $scope.getTypeName($scope.modalProperty.typeId) == "Select";
+    }
     
     $scope.noProperties = function(){
       return !$scope.properties || $scope.properties.length == 0;
@@ -47,6 +63,54 @@ simplEventApp.controller('PropertyController', function($scope, $http){
     
     $scope.saveNewPropertyDisabled = function(){
         return !$scope.modalProperty.name || !$scope.modalProperty.typeId;
+    }
+    
+    $scope.newPropertyHasConfig = function(){
+        if($scope.modalProperty && $scope.modalProperty.typeId){
+            return $scope.getTypeObject($scope.modalProperty.typeId).config;
+        }
+        return false;
+    }
+    
+    $scope.getConfigString = function(property){
+        if(property.typeConfig){
+            var type = $scope.getTypeName(property.typeId);
+            if(type == "Scale"){
+                return (property.typeConfig.min ? ("Minimum: " + property.typeConfig.min + " | ") : "") +
+                       (property.typeConfig.max ? ("Maximum: " + property.typeConfig.max) : "");
+            } else if(type == "Select"){
+                var str = "";
+                for(var i = 0; i < property.typeConfig.options.length; i++){
+                    var opt = property.typeConfig.options[i];
+                    str += (opt + (i == property.typeConfig.options.length - 1 ? "" : ", ") ); //Don't add comma for last entry
+                }
+                return str;
+            }
+        }
+        return "";
+    }
+    
+    $scope.selectOptionVal = "";
+    
+    $scope.addOptionClicked = function(){
+        if($scope.modalProperty.typeConfig){
+            if($scope.selectOptionVal){
+                if(!$scope.modalProperty.typeConfig.options){
+                    $scope.modalProperty.typeConfig.options = [];
+                }
+                $scope.modalProperty.typeConfig.options.push($scope.selectOptionVal);
+                $scope.selectOptionVal = "";
+            }
+        }
+    }
+    
+    $scope.removeOption = function(option){
+        if($scope.modalProperty.typeConfig && $scope.modalProperty.typeConfig.options){
+            var index = $scope.modalProperty.typeConfig.options.indexOf(option);
+            if (index != -1) {
+                $scope.modalProperty.typeConfig.options.splice(index, 1);
+            }
+        }
     }
     
     $scope.addPropertyClicked = function(){
