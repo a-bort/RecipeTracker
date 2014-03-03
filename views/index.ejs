@@ -1,6 +1,6 @@
 <% layout("layout") -%>
 <script type='text/javascript' src='/public/javascripts/controllers/RecipeController.js'></script>
-<div class="container" ng-controller="RecipeController", ng-init="setRecipes(<%= JSON.stringify(recipes) %>)">
+<div class="container" ng-controller="RecipeController" ng-init="setRecipes(<%= JSON.stringify(recipes) %>)">
     <h1><%= title %> </h1>
     
 </div> <!-- /container -->

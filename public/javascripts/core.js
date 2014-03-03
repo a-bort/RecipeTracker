@@ -3,5 +3,4 @@ $(function(){
 		pickDate: true,
 		pickTime: false
 	});
-
 });

@@ -1,5 +1,3 @@
-var simplEventApp = angular.module('simplEventApp', []);
-
 simplEventApp.controller('RecipeController', function($scope, $http){
     $scope.recipes = [];
     
@@ -45,7 +43,7 @@ simplEventApp.controller('RecipeController', function($scope, $http){
   //  $scope.notDoneFilter = { done : false };
   //  
       $scope.setRecipes = function(todos){
-          console.log("Set Recipes");
+          util.log("Set Recipes");
       }
   //  
   //  $scope.addNewTodo = function(){

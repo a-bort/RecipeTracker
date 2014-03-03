@@ -1,6 +1,6 @@
 <% layout("layout") -%>
 <script type='text/javascript' src='/public/javascripts/controllers/PropertyController.js'></script>
-<div class="container" ng-controller="PropertyController", ng-init="initData(<%= JSON.stringify(types)%>, <%= JSON.stringify(properties)%>)">
+<div class="container" ng-controller="PropertyController" ng-init="initData(<%= JSON.stringify(types)%>, <%= JSON.stringify(properties)%>)">
     <h1 class="control-group"><%= title %> </h1>
     <div>
         <div style="margin-top: 20px">

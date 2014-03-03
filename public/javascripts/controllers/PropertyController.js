@@ -1,8 +1,4 @@
-var simplEventApp = angular.module('simplEventApp', []);
-
 simplEventApp.controller('PropertyController', function($scope, $http){
-    
-    window.PropertyController = $scope;
     
     $scope.createProperty = function(){
         return {
@@ -170,7 +166,7 @@ simplEventApp.controller('PropertyController', function($scope, $http){
         })
         .error(function(err){
             util.log(JSON.stringify(err));
-            util.alert("Error Deactivating Property");
+            util.alert("Error Updating Property");
         });
     }
 });
