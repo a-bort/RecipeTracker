@@ -86,6 +86,23 @@ simplEventApp.controller('PropertyController', function($scope, $http){
         return "";
     }
     
+    $scope.addPropertyDisabled = function(){
+        return $scope.properties.length >= 8;
+    }
+    
+    $scope.addPropertyClicked = function(){
+        $scope.modalProperty = $scope.createProperty();
+        $("#propertyModal").modal("show");
+    }
+    
+    $scope.savePropertyClicked = function(){
+        if($scope.modalProperty.editing){
+            $scope.sendUpdateRequest($scope.modalProperty);
+        } else{
+            $scope.addNewProperty();
+        }
+    }
+    
     $scope.selectOptionVal = "";
     
     $scope.addOptionClicked = function(){
@@ -106,19 +123,6 @@ simplEventApp.controller('PropertyController', function($scope, $http){
             if (index != -1) {
                 $scope.modalProperty.typeConfig.options.splice(index, 1);
             }
-        }
-    }
-    
-    $scope.addPropertyClicked = function(){
-        $scope.modalProperty = $scope.createProperty();
-        $("#propertyModal").modal("show");
-    }
-    
-    $scope.savePropertyClicked = function(){
-        if($scope.modalProperty.editing){
-            $scope.sendUpdateRequest($scope.modalProperty);
-        } else{
-            $scope.addNewProperty();
         }
     }
     

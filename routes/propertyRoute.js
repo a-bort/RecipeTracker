@@ -27,7 +27,10 @@ var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema
                     title: 'User Created Properties',
                     error: errorList,
                     types: types,
-                    properties: properties
+                    properties: properties,
+                    links: {
+                        propertyActive: true
+                    }
                 });
             });
         });

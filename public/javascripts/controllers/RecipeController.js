@@ -1,59 +1,40 @@
 simplEventApp.controller('RecipeController', function($scope, $http){
     $scope.recipes = [];
+    $scope.properties = [];
+    $scope.propertyTypes = [];
     
-    //done, due, description
-  //  function todo(js){
-  //      var self = this;
-  //      angular.copy(js, self);
-  //      
-  //      self.setTodoState = function(){
-  //          $http.post('/update', {id: self._id, done: self.done}).error(function(data){
-  //              alert(data);
-  //          }).success(function(data){
-  //              if(data.error){
-  //                  alert(data.error);
-  //              }
-  //          });
-  //      }
-  //      
-  //      self.removeItem = function(){
-  //          $http.post('/delete', {id: self._id})
-  //          .success(function(data){
-  //              if(data.todos){
-  //                  $scope.setTodos(data.todos);
-  //              } else if(data.error){
-  //                  alert(data.error);
-  //              } else{
-  //                  alert('no todos found');
-  //              }
-  //          })
-  //          .error(function(data){
-  //              alert(data);
-  //          });
-  //      }
-  //  }
-  //  
-  //  $scope.newTodo = new todo({
-  //      done: false,
-  //      due: "", //new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-  //      description: ''
-  //  });
-  //  
-  //  $scope.doneFilter = { done : true };
-  //  $scope.notDoneFilter = { done : false };
-  //  
-      $scope.setRecipes = function(todos){
-          util.log("Set Recipes");
+    $scope.initData = function(recipes, properties, types){
+      $scope.setPropertyTypes(types);
+      $scope.setProperties(properties);
+      $scope.setRecipes(recipes);
+      
+      console.log($scope.properties);
+    }
+    
+    $scope.setRecipes = function(recipes){
+      $scope.recipes = recipes;
+    }
+    
+    $scope.setProperties = function(properties){
+      for(var i = 0; i < properties.length; i++){
+        var prop = properties[i];
+        for(var j = 0; j < $scope.propertyTypes.length; j++){
+            var type = $scope.propertyTypes[j];
+            if(type._id == prop.typeId){
+                prop.typeName = type.name;
+                properties[i] = prop;
+                continue;
+            }
+        }
       }
-  //  
-  //  $scope.addNewTodo = function(){
-  //      $http.post('/create', $scope.newTodo).success(function(data){
-  //          if(data.todo){
-  //              $scope.todos.push(new todo(data.todo));
-  //              $scope.newTodo.description = '';
-  //          } else {
-  //              alert(JSON.stringify(data));
-  //          }
-  //      });
-  //  }
+      $scope.properties = properties;
+    }
+    
+    $scope.setPropertyTypes = function(types){
+      $scope.propertyTypes = types;
+    }
+    
+    $scope.noRecipes = function(){
+        return $scope.recipes.length == 0;
+    }
 });

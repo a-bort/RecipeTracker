@@ -1,11 +1,14 @@
 var simplEventApp = angular.module('simplEventApp', []);
 
-simplEventApp.controller('HeaderController', function($scope, $location){
-        
-    $scope.loc = $location;
-    
-    $scope.homeUrl = "/";
-    $scope.homeActive = true;
-    $scope.propertyUrl = "/Properties";
+simplEventApp.controller('HeaderController', function($scope, $http){
+    $scope.homeActive = false;
     $scope.propertyActive = false;
+    
+    $scope.setHomeActive = function(){
+        $scope.homeActive = true;
+    }
+    
+    $scope.setPropertyActive = function(){
+        $scope.propertyActive = true;
+    }
 });

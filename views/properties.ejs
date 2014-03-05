@@ -1,5 +1,10 @@
 <% layout("layout") -%>
 <script type='text/javascript' src='/public/javascripts/controllers/PropertyController.js'></script>
+<script>
+$(function(){
+    util.sc("Header").setPropertyActive();
+});
+</script>
 <div class="container" ng-controller="PropertyController" ng-init="initData(<%= JSON.stringify(types)%>, <%= JSON.stringify(properties)%>)">
     <h1 class="control-group"><%= title %> </h1>
     <div>
@@ -31,7 +36,7 @@
             </div>
         </div>
         <div style="margin-top: 20px">
-            <a href="#" class="btn btn-success" ng-click="addPropertyClicked()"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Property</a>
+            <button class="btn btn-success" ng-click="addPropertyClicked()" ng-disabled="addPropertyDisabled()"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Property</button>
         </div>
     </div>
     <div class="modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-hidden="true">

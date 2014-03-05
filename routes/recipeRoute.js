@@ -1,46 +1,57 @@
-//var PropertySchema = require('../models/Property.js').PropertySchema;
-//var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema;
+var PropertySchema = require('../models/Property.js').PropertySchema;
+var RecipeSchema = require('../models/Recipe.js').RecipeSchema;
+var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema;
 /*
  * GET home page.
  */
  
  module.exports = function(app, db){
-    //var Property = db.model('property', PropertySchema);
-    //var PropertyType = db.model('propertyType', 
+    var Property = db.model('property', PropertySchema);
+    var Recipe = db.model('recipe', RecipeSchema);
+    var PropertyType = db.model('propertyTypes',  PropertyTypeSchema);
     
     app.get('/', function(req, res){
         var errorList = [];
-        //PropertyTypeSchema.find({active: true}, function(error, types){
-        //    if(error){
-        //        types = [];
-        //        errorList.push(error);
-        //    }
-        //    Property.find({}, function(error, properties){
-        //        if(error){
-        //            properties = [];
-        //            errorList.push(error);
-        //        }
-                res.render('index', {
-                    title: 'Recipes',
-                    error: errorList,
-                    recipes: []//,
-                    //types: types,
-                    //properties: properties
+        PropertyType.find({active: true}, function(error, types){
+            if(error){
+                types = [];
+                errorList.push(error);
+            }
+            Recipe.find({active: true}, function(error, recipes){
+                if(error){
+                    recipes = [];
+                    errorList.push(error);
+                }
+                Property.find({active: true}, function(error, properties){
+                    if(error){
+                        properties = [];
+                        errorList.push(error);
+                    }
+                    res.render('index', {
+                        title: 'Recipes',
+                        error: errorList,
+                        links: {
+                            homeActive: true
+                        },
+                        recipes: recipes,
+                        properties: properties,
+                        types: types
+                    });
                 });
-            //});
-        //});
+            });
+        });
     });
     
-  // app.post('/create', function(req, res){
-  //     var event = new Event(req.body);
-  //     event.save(function(error, event){
-  //         if(error || !event){
-  //             res.json({error: error});
-  //         } else{
-  //             res.json({ event: event });
-  //         }
-  //     });
-  // });
+   app.post('/create', function(req, res){
+       var recipe = new Recipe(req.body);
+       recipe.save(function(error, recipe){
+           if(error || !recipe){
+               res.json({error: error});
+           } else{
+               res.json({ recipe: recipe });
+           }
+       });
+   });
   // 
   // app.post('/update', function(req, res){
   //     var id = req.body.id;
