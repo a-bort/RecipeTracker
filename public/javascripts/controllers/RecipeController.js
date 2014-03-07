@@ -11,6 +11,15 @@ simplEventApp.controller('RecipeController', function($scope, $http){
       console.log($scope.properties);
     }
     
+	$scope.createRecipe = function(){
+		return {
+			name : "",
+			url: "",
+			properties: { },
+			active: true
+		}
+	}
+	
     $scope.setRecipes = function(recipes){
       $scope.recipes = recipes;
     }
@@ -37,4 +46,20 @@ simplEventApp.controller('RecipeController', function($scope, $http){
     $scope.noRecipes = function(){
         return $scope.recipes.length == 0;
     }
+	
+	$scope.modalRecipe = $scope.createRecipe();
+	
+	$scope.saveNewRecipeDisabled = function(){
+		return false;
+	}
+	
+	$scope.addRecipeClicked = function(){
+		$scope.modalRecipe = $scope.createRecipe();
+        $("#recipeModal").modal("show");
+	}
+	
+	$scope.saveRecipeClicked = function(){
+		console.log($scope.modalRecipe);
+		$("#recipeModal").modal("hide");
+	}
 });
