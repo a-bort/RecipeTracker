@@ -42,13 +42,19 @@ var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema
         });
     });
     
-   app.post('/create', function(req, res){
+   app.post('/Recipe/create', function(req, res){
        var recipe = new Recipe(req.body);
        recipe.save(function(error, recipe){
            if(error || !recipe){
                res.json({error: error});
            } else{
-               res.json({ recipe: recipe });
+               Recipe.find({active: true}, function(error, recipes){
+                    if(error){
+                        res.json({error: error});
+                    } else{
+                        res.json({recipes: recipes});
+                    }
+                });
            }
        });
    });

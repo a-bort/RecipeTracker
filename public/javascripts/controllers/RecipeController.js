@@ -8,7 +8,7 @@ simplEventApp.controller('RecipeController', function($scope, $http){
       $scope.setProperties(properties);
       $scope.setRecipes(recipes);
       
-      console.log($scope.properties);
+      console.log($scope.recipes);
     }
     
 	$scope.createRecipe = function(){
@@ -59,7 +59,19 @@ simplEventApp.controller('RecipeController', function($scope, $http){
 	}
 	
 	$scope.saveRecipeClicked = function(){
-		console.log($scope.modalRecipe);
-		$("#recipeModal").modal("hide");
-	}
+        $http.post('Recipe/create', $scope.modalRecipe).success(function(data){
+            if(data.recipes){
+                $scope.setRecipes(data.recipes);
+                $scope.modalRecipe = $scope.createRecipe();
+                $("#recipeModal").modal("hide");
+            } else {
+                util.log(JSON.stringify(data.error));
+                util.alert("Error Reloading Recipe List");
+            }
+        })
+        .error(function(err){
+            util.log(JSON.stringify(err));
+            util.alert("Error Creating Recipe");
+        });
+    }
 });
