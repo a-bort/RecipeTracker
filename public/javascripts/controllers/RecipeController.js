@@ -39,6 +39,16 @@ simplEventApp.controller('RecipeController', function($scope, $http){
       $scope.properties = properties;
     }
     
+    $scope.parsePropertyValue = function(val){
+        if(val === undefined || val === false){
+            return "No";
+        }
+        else if(val === true){
+            return "Yes";
+        }
+        return val;
+    }
+    
     $scope.setPropertyTypes = function(types){
       $scope.propertyTypes = types;
     }
