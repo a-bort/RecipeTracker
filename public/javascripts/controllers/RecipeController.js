@@ -67,7 +67,16 @@ simplEventApp.controller('RecipeController', function($scope, $http){
 		$scope.modalRecipe = $scope.createRecipe();
         $("#recipeModal").modal("show");
 	}
+    
+    $scope.editRecipe = function(recipe){
+        $scope.modalRecipe = recipe;
+        $("#recipeModal").modal("show");
+    }
 	
+    $scope.saveDisabled = function(){
+        return !$scope.modalRecipe.name;
+    }
+    
 	$scope.saveRecipeClicked = function(){
         $http.post('Recipe/create', $scope.modalRecipe).success(function(data){
             if(data.recipes){

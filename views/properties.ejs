@@ -16,8 +16,7 @@ $(function(){
                             <th>Name</th>
                             <th>Type</th>
                             <th>Optional Config</th>
-                            <th>Edit</th>
-                            <th>Deactivate</th>
+                            <th>Edit/Deactivate</th>
                         </td>
                     </thead>
                     <tbody>
@@ -25,8 +24,12 @@ $(function(){
                             <td ng-bind="prop.name"></td>
                             <td ng-bind="getTypeName(prop.typeId)"></td>
                             <td ng-bind="getConfigString(prop)"></td>
-                            <td><button class="btn btn-warning" ng-click="editProperty(prop)"><i class="glyphicon glyphicon-pencil"></i></button>
-                            <td><button class="btn btn-danger" ng-click="deactivateProperty(prop)"><i class="glyphicon glyphicon-remove"></i></button>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-warning" ng-click="editProperty(prop)"><i class="glyphicon glyphicon-pencil"></i></button>
+                                    <button class="btn btn-danger" ng-click="deactivateProperty(prop)"><i class="glyphicon glyphicon-remove"></i></button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
