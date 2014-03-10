@@ -21,7 +21,7 @@ $(function(){
                     <tbody>
                         <tr ng-repeat="recipe in recipes">
                            <td>
-                             <a ng-if="recipe.url" href="{{recipe.url}}">{{recipe.name}}</a>
+                             <a ng-if="recipe.url" href="{{generateRecipeLink(recipe.url)}}">{{recipe.name}}</a>
                              <span ng-if="!recipe.url">{{recipe.name}}</span>
                            </td>
                            <td ng-repeat="prop in properties">
@@ -50,7 +50,7 @@ $(function(){
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">Add New Recipe</h4>
+              <h4 class="modal-title">{{modalHeader()}}</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
@@ -76,7 +76,7 @@ $(function(){
                             <input ng-model="modalRecipe.properties[property._id]" type="text" class="form-control" id="{{property._id}}" placeholder="{{property.name}}"/>
                         </div>
 						<div ng-if="property.typeName == 'True/False'" class="col-sm-10">
-                            <input ng-model="modalRecipe.properties[property._id]" ng-checked="modalRecipe.properties[property.name]" type="checkbox" class="" style="margin-top: 10px" id="{{property._id}}" placeholder="{{property.name}}"/>
+                            <input ng-model="modalRecipe.properties[property._id]" ng-init="modalRecipe.properties[property._id]=false" type="checkbox" class="" style="margin-top: 10px" id="{{property._id}}" placeholder="{{property.name}}"/>
                         </div>
 						<div ng-if="property.typeName == 'Select'" class="col-sm-10">
                             <select ng-model="modalRecipe.properties[property._id]" ng-options="text for text in property.typeConfig.options" class="form-control" id="{{property._id}}" placeholder="{{property.name}}"></select>

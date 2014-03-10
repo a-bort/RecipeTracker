@@ -86,6 +86,14 @@ simplEventApp.controller('PropertyController', function($scope, $http){
         return "";
     }
     
+	$scope.modalHeader = function(){
+		if($scope.modalProperty && !$scope.modalProperty.editing){
+			return "Add New Property";
+		} else{
+			return "Edit Recipe";
+		}
+	}
+	
     $scope.addPropertyDisabled = function(){
         return $scope.properties.length >= 8;
     }

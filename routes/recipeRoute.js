@@ -58,43 +58,23 @@ var PropertyTypeSchema = require('../models/PropertyType.js').PropertyTypeSchema
            }
        });
    });
-  // 
-  // app.post('/update', function(req, res){
-  //     var id = req.body.id;
-  //     var done = req.body.done;
-  //     Event.find({ _id: id }, function(err, events){
-  //         if(err){
-  //             res.json({error: err});
-  //         }
-  //         else if(events.length){
-  //             var event = events[0];
-  //             event.done = done;
-  //             event.save(function(error, result){
-  //                 if(error || !result){
-  //                     res.json({error: error});
-  //                 } else{
-  //                     res.json({success: true});
-  //                 }
-  //             });
-  //         }
-  //     })
-  // });
-  // 
-  // app.post('/delete', function(req, res){
-  //     var id = req.body.id;
-  //     Event.remove({_id: id}, function(err){
-  //         if(err){
-  //             res.json({error: err});
-  //         } else {
-  //             Event.find({}, function(error, events){
-  //                 if(error){
-  //                     res.json({error : error});
-  //                 }
-  //                 else{
-  //                     res.json({events : events});
-  //                 }
-  //             });
-  //         }
-  //     });
-  // });
+   
+   app.post('/Recipe/update', function(req, res){
+        var recipe = new Recipe(req.body);
+        var raw = recipe.toObject();
+        delete raw._id;
+        recipe.update(raw, {}, function(error, recipe){
+            if(error || !recipe){
+                res.json({error: error});
+            } else{
+                Recipe.find({active: true}, function(error, recipes){
+                    if(error){
+                        res.json({error: error});
+                    } else{
+                        res.json({recipes: recipes});
+                    }
+                });
+            }
+        });
+   });
  };

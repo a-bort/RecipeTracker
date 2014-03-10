@@ -7,8 +7,6 @@ simplEventApp.controller('RecipeController', function($scope, $http){
       $scope.setPropertyTypes(types);
       $scope.setProperties(properties);
       $scope.setRecipes(recipes);
-      
-      console.log($scope.recipes);
     }
     
 	$scope.createRecipe = function(){
@@ -40,15 +38,33 @@ simplEventApp.controller('RecipeController', function($scope, $http){
     }
     
     $scope.parsePropertyValue = function(val){
-        if(val === undefined || val === false){
+        if(val === false){
             return "No";
         }
         else if(val === true){
             return "Yes";
-        }
+        } else if(val === undefined){
+			return "---";
+		}
         return val;
     }
+	
+	$scope.generateRecipeLink = function(href){
+		href = href.trim();
+		if(href.substring(0, 7) != "http://" && href.substring(0, 8) != "https://"){
+			href = "http://" + href;
+		}
+		return href;
+	}
     
+	$scope.modalHeader = function(){
+		if($scope.modalRecipe && !$scope.modalRecipe.editing){
+			return "Add New Recipe";
+		} else{
+			return "Edit Recipe";
+		}
+	}
+	
     $scope.setPropertyTypes = function(types){
       $scope.propertyTypes = types;
     }
@@ -69,16 +85,32 @@ simplEventApp.controller('RecipeController', function($scope, $http){
 	}
     
     $scope.editRecipe = function(recipe){
-        $scope.modalRecipe = recipe;
+		recipe.editing = true;
+		var copy = {};
+        angular.copy(recipe, copy);
+        $scope.modalRecipe = copy;
         $("#recipeModal").modal("show");
     }
 	
     $scope.saveDisabled = function(){
         return !$scope.modalRecipe.name;
-    }
+    };
     
 	$scope.saveRecipeClicked = function(){
-        $http.post('Recipe/create', $scope.modalRecipe).success(function(data){
+        if(!$scope.modalRecipe.editing){
+			$scope.saveNewRecipe();
+		} else{
+			$scope.updateRecipe($scope.modalRecipe);
+		}
+    };
+	
+	$scope.deactivateRecipe = function(recipe){
+		recipe.active = false;
+		$scope.updateRecipe(recipe);
+	};
+	
+	$scope.saveNewRecipe = function(){
+		$http.post('Recipe/create', $scope.modalRecipe).success(function(data){
             if(data.recipes){
                 $scope.setRecipes(data.recipes);
                 $scope.modalRecipe = $scope.createRecipe();
@@ -92,5 +124,22 @@ simplEventApp.controller('RecipeController', function($scope, $http){
             util.log(JSON.stringify(err));
             util.alert("Error Creating Recipe");
         });
-    }
+	};
+	
+	$scope.updateRecipe = function(recipe){
+		$http.post('Recipe/update', recipe).success(function(data){
+            if(data.recipes){
+                $scope.setRecipes(data.recipes);
+                $scope.modalRecipe = $scope.createRecipe();
+                $("#recipeModal").modal("hide");
+            } else {
+                util.log(JSON.stringify(data.error));
+                util.alert("Error Reloading Recipe List");
+            }
+        })
+        .error(function(err){
+            util.log(JSON.stringify(err));
+            util.alert("Error Creating Recipe");
+        });
+	};
 });
