@@ -16,6 +16,26 @@ a {
     margin-right: 10px;
 }
 
+.th-sorting {
+    background: aliceblue;
+}
+
+.th-sortable {
+    cursor: pointer;
+}
+
+.th-sortable a {
+    text-decoration: none;
+}
+
+.th-sortable:hover {
+    background: #ACD6F3;
+}
+
+.icon-invisible {
+    visibility: hidden;
+}
+
 //
 // Override default badge css
 //

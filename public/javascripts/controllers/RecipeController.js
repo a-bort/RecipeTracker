@@ -1,4 +1,8 @@
 simplEventApp.controller('RecipeController', function($scope, $http){
+
+    //DATA INITIALIZATION
+    
+    
     $scope.recipes = [];
     $scope.properties = [];
     $scope.propertyTypes = [];
@@ -25,6 +29,10 @@ simplEventApp.controller('RecipeController', function($scope, $http){
     $scope.setProperties = function(properties){
       for(var i = 0; i < properties.length; i++){
         var prop = properties[i];
+        
+        //SETUP SORTING OBJECT
+        prop.sortingHelper = new SortingHelper(prop);  
+        
         for(var j = 0; j < $scope.propertyTypes.length; j++){
             var type = $scope.propertyTypes[j];
             if(type._id == prop.typeId){
@@ -37,16 +45,27 @@ simplEventApp.controller('RecipeController', function($scope, $http){
       $scope.properties = properties;
     }
     
-    $scope.parsePropertyValue = function(val){
-        if(val === false){
-            return "No";
+    $scope.setPropertyTypes = function(types){
+      $scope.propertyTypes = types;
+    }
+    
+    //CONTENT MANIPULATION
+    //  - MAIN PAGE
+    
+    $scope.parsePropertyValue = function(prop, val){
+        if(prop.typeName == "True/False"){
+            if(!val){
+                return "No";
+            }
+            else{
+                return "Yes";
+            }
+        } 
+        else if(val){
+            return val;
         }
-        else if(val === true){
-            return "Yes";
-        } else if(val === undefined){
-			return "---";
-		}
-        return val;
+        return "---";
+        
     }
 	
 	$scope.generateRecipeLink = function(href){
@@ -64,17 +83,127 @@ simplEventApp.controller('RecipeController', function($scope, $http){
 			return "Edit Recipe";
 		}
 	}
-	
-    $scope.setPropertyTypes = function(types){
-      $scope.propertyTypes = types;
-    }
     
     $scope.noRecipes = function(){
         return $scope.recipes.length == 0;
     }
 	
-	$scope.modalRecipe = $scope.createRecipe();
+    // -- SORTING
+    
+    // ---- CENTRAL OBJECT FOR TRACKING THE SORT VALUE AND DIRECTION,
+    // ---- MAINTAINS THE STATE OF THE LIST
+    
+    function SortingTracker(){
+        var self = this;
+        var page = $scope;
+        
+        self.sortingProperty = "";
+        self.sortingAsc = true;
+        
+        self.setSortingProperty = function(prop){
+            console.log(prop);
+            self.sortingProperty = prop;
+        }
+        
+        self.setSortingDir = function(isAsc){
+            console.log(isAsc);
+            self.sortingAsc = isAsc;
+        }
+        
+        self.headingStateChanged = function(){
+            page.nameHeader.safeClearSortingStatus();
+            for(var i = 0; i < page.properties.length; i++){
+                page.properties[i].sortingHelper.safeClearSortingStatus();
+            }
+        }
+        
+        self.sortFn = function(recipe){
+            if(self.sortingProperty){
+                if(self.sortingProperty == "Name"){
+                    return recipe.name;
+                } else{
+                    return recipe.properties[self.sortingProperty] || 0;
+                }
+            }
+            return 0;
+        }
+        
+        self.filterVal = "";
+        
+        self.filterFn = function(recipe){
+            if(self.filterVal && recipe){
+                var expression = self.filterVal;
+                var rx = RegExp(expression,'i');
+                
+                var anyMatch = recipe.name.match(rx);
+                for(var id in recipe.properties){
+                    var anyMatch = anyMatch || (recipe.properties[id] ? JSON.stringify(recipe.properties[id]).match(rx) : false);
+                }
+                return anyMatch;
+            }
+            return true;
+        }
+    }
+    
+    // ---- OBJECT BOUND TO EACH HEADER DIV
+    // ---- BROADCASTS STATES OF HEADERS, EVENT DELEGATE
+    
+    function SortingHelper(prop){
+        var self = this;
+        var page = $scope;
+        
+        self.parseSortIconCss = function(){
+            if(self.sortingAsc === true){
+                return "glyphicon glyphicon-arrow-up";
+            } else if(self.sortingAsc === false){
+                return "glyphicon glyphicon-arrow-down"
+            }
+            return "glyphicon glyphicon-arrow-down icon-invisible";
+        }
+        
+        self.parseSortBackgroundCss = function(){
+            if(self.sortingAsc === true || self.sortingAsc === false){
+                return "th-sorting";
+            }
+            return "";
+        }
+        
+        self.parentProperty = prop;
+        
+        self.sortingProperty = prop._id;
+        self.sortingAsc = undefined;
+        
+        self.clicked = function(){
+            if(!self.sortingAsc){
+                self.sortingAsc = true;
+            } else{
+                self.sortingAsc = false;
+            }
+            
+            page.sortTrack.setSortingDir(self.sortingAsc);
+            page.sortTrack.setSortingProperty(self.sortingProperty);
+            
+            page.sortTrack.headingStateChanged();
+        }
+        
+        //LOOK AT CENTRAL TRACKER, REMOVE SORTING STATUS IF NO MATCH
+        self.safeClearSortingStatus = function(){
+            if(page.sortTrack.sortingProperty != self.sortingProperty){
+                self.sortingAsc = undefined;
+            }
+        }
+    }
+    
+    // INIT VALUES
+    $scope.sortTrack = new SortingTracker();
+    $scope.nameHeader = new SortingHelper({_id: "Name"});
+    
+    
+	//CONTENT MANIPULATION
+    //  - MODAL
 	
+    $scope.modalRecipe = $scope.createRecipe();
+    
 	$scope.saveNewRecipeDisabled = function(){
 		return false;
 	}
@@ -109,6 +238,10 @@ simplEventApp.controller('RecipeController', function($scope, $http){
 		$scope.updateRecipe(recipe);
 	};
 	
+    
+    // AJAX CALLS
+    
+    
 	$scope.saveNewRecipe = function(){
 		$http.post('Recipe/create', $scope.modalRecipe).success(function(data){
             if(data.recipes){

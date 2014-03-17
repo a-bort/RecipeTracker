@@ -15,6 +15,7 @@ simplEventApp.controller('PropertyController', function($scope, $http){
     $scope.initData = function(types, properties){
       $scope.setTypes(types);
       $scope.setProperties(properties);
+      console.log(properties);
     }
     
     $scope.setProperties = function(properties){
