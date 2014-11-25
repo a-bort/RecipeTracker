@@ -1,10 +1,6 @@
 <% layout("layout") -%>
 <script type='text/javascript' src='/public/javascripts/controllers/RecipeController.js'></script>
-<script>
-$(function(){
-    util.sc("Header").setHomeActive();
-});
-</script>
+
 <div class="container" ng-controller="RecipeController" ng-init="initData(<%= JSON.stringify(recipes) %>, <%= JSON.stringify(properties) %>,  <%= JSON.stringify(types) %>)">
     <h1 class="control-group"><%= title %> </h1>
      <form>

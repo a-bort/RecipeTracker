@@ -85,3 +85,8 @@ a {
 .badge-inverse:hover {
   background-color: #1a1a1a;
 }
+
+#removeMe {
+    width:  200px;
+    height: 200px;
+}
